@@ -68,16 +68,32 @@ puts the x-axis on a log scale.
 Note: There is also similarly a <span
 style="color: #5196b4;background-color:#f4e4e7">`scale_y_log10()`</span>.
 
-<pre class='sourceCode r'><code># scale the x axis to using log values<br># to see the distribution better<br># we see many 0's and then a few other numbers<br>fishing %>% <br>&nbsp;&nbsp;ggplot(aes(grand_total + 1)) +<br>&nbsp;&nbsp;geom_histogram() +<br>&nbsp;&nbsp;<span style='background-color:#f4e4e7;color:#5196b4'>scale_x_log10()</span></code></pre>
+``` r
+# scale the x axis to using log values
+# to see the distribution better
+# we see many 0's and then a few other numbers
+fishing %>% 
+  ggplot(aes(grand_total + 1)) +
+  geom_histogram() +
+  scale_x_log10()
+```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-scale-x-1-1.png" width="100%" />
 
 We can also set the <span
 style="color: #5196b4;background-color:#f4e4e7">breaks</span> ourselves.
 
-<pre class='sourceCode r'><code># scale the x axis to using log values<br># to see the distribution better<br># also set the breaks<br>fishing %>% <br>&nbsp;&nbsp;ggplot(aes(grand_total + 1)) +<br>&nbsp;&nbsp;geom_histogram() +<br>&nbsp;&nbsp;scale_x_log10(<span style='background-color:#f4e4e7;color:#5196b4'>breaks = c(0, 10, 100, 1000, 10000, 20000, 50000)</span>)</code></pre>
+``` r
+# scale the x axis to using log values
+# to see the distribution better
+# also set the breaks
+fishing %>% 
+  ggplot(aes(grand_total + 1)) +
+  geom_histogram() +
+  scale_x_log10(breaks = c(0, 10, 100, 1000, 10000, 20000, 50000))
+```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-scale-x-1-1-1.png" width="100%" />
 
 ## Example 2
 
@@ -102,6 +118,10 @@ to make our axis labels have a <span
 style="color: #5196b4;background-color:#f4e4e7">`,`</span>: `1,000`,
 `2,000`, `3,000` etc.
 
-<pre class='sourceCode r'><code>ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +<br>&nbsp;&nbsp;geom_point(alpha = 0.5) +<br>&nbsp;&nbsp;scale_x_log10(<span style='background-color:#f4e4e7;color:#5196b4'>label = comma</span>)</code></pre>
+``` r
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10(label = comma)
+```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-scale-x-3-1.png" width="100%" />
