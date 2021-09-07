@@ -1,0 +1,113 @@
+---
+title: "ggplot2: Scale x log"
+author: "Vebash Naidoo"
+date: "06/09/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE,
+                      message = FALSE)
+
+library(tidyverse)
+library(scales)
+library(flair)
+```
+
+```{r eda1, cache=TRUE}
+fishing <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-06-08/fishing.csv')
+
+fishing %>% 
+  summarise(max_gt = max(grand_total,
+                 na.rm = TRUE),
+            min_gt = min(grand_total,
+                 na.rm = TRUE))
+
+fishing %>% 
+  count(grand_total, sort = TRUE)
+
+
+fishing %>% 
+  count(grand_total)
+
+# quite skewed because of many 0's and
+# large values in the grand_total
+fishing %>% 
+  ggplot(aes(grand_total)) +
+  geom_histogram()
+```
+
+As we see there is much data all around `0`. To see it a bit clearer we can use a log transform on the x-axis data. 
+
+<span style="color: #5196b4;background-color:#f4e4e7">`scale_x_log10()`</span> puts the x-axis on a log scale.
+
+Note: There is also similarly a <span style="color: #5196b4;background-color:#f4e4e7">`scale_y_log10()`</span>.
+
+```{r scale-x-1, include=FALSE}
+# scale the x axis to using log values
+# to see the distribution better
+# we see many 0's and then a few other numbers
+fishing %>% 
+  ggplot(aes(grand_total + 1)) +
+  geom_histogram() +
+  scale_x_log10()
+```
+
+
+```{r, echo = FALSE}
+decorate_chunk('scale-x-1') %>% 
+  flair('scale_x_log10()', 
+        background = "#f4e4e7", 
+        color = "#5196b4")
+```
+
+
+We can also set the <span style="color: #5196b4;background-color:#f4e4e7">breaks</span> ourselves.
+
+```{r scale-x-1-1, include=FALSE}
+# scale the x axis to using log values
+# to see the distribution better
+# also set the breaks
+fishing %>% 
+  ggplot(aes(grand_total + 1)) +
+  geom_histogram() +
+  scale_x_log10(breaks = c(0, 10, 100, 1000, 10000, 20000, 50000))
+```
+
+```{r, echo = FALSE}
+decorate_chunk('scale-x-1-1') %>% 
+  flair('breaks = c(0, 10, 100, 1000, 10000, 20000, 50000)', 
+        background = "#f4e4e7", 
+        color = "#5196b4")
+```
+
+
+## Example 2
+
+Here's another example taken from Rebecca Barter's [blog post on ggplot2](https://www.rebeccabarter.com/blog/2017-11-17-ggplot2_tutorial/).
+
+```{r scale-x-2}
+gapminder <- read.csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/gh-pages/_episodes_rmd/data/gapminder-FiveYearData.csv")
+
+gapminder_2007 <- gapminder %>% filter(year == 2007)
+
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  geom_point(alpha = 0.5)
+```
+
+Again interesting data is near 0 and hard to see. Let's scale the x axis again. This time we use <span style="color: #5196b4;background-color:#f4e4e7">`label = comma`</span> to make our axis labels have a <span style="color: #5196b4;background-color:#f4e4e7">`,`</span>: `1,000`, `2,000`, `3,000` etc.
+
+```{r scale-x-3, include = FALSE}
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent, size = pop)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10(label = comma)
+```
+
+```{r, echo = FALSE}
+decorate_chunk('scale-x-3') %>% 
+  flair('label = comma', 
+        background = "#f4e4e7", 
+        color = "#5196b4")
+```
+
+
