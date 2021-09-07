@@ -1,8 +1,6 @@
 ---
 title: "ggplot2: Scale x log"
-author: "Vebash Naidoo"
-date: "06/09/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
